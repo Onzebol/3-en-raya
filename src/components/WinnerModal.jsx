@@ -1,4 +1,7 @@
+import { TURNS } from "../constants"
 import { Square } from "./Square"
+import { SvgO } from "./SvgO"
+import { SvgX } from "./SvgX"
 
 export function WinnerModal({winner, resetGame}) {
 	if (winner === null) return null
@@ -11,7 +14,10 @@ export function WinnerModal({winner, resetGame}) {
 				<h2>{winnerText}</h2>
 				{winner && 
 					<header className="win">
-						<Square>{winner}</Square>
+						<Square>
+							{winner === TURNS.X && <SvgX />}
+							{winner === TURNS.O && <SvgO />}
+						</Square>
 					</header>
 				}
 				<footer>

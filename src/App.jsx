@@ -4,6 +4,8 @@ import { Square } from "./components/Square"
 import { TURNS } from "./constants"
 import { WinnerModal } from "./components/WinnerModal"
 import { checkEndGame, checkWinner } from "./logic/board"
+import { SvgX } from "./components/SvgX"
+import { SvgO } from "./components/SvgO"
 
 function App() {
 	const [board, setBoard] = useState(() => {
@@ -49,7 +51,10 @@ function App() {
 	return (
 		<main className="board">
 			<h1>3 en raya</h1>
-			<button onClick={resetGame}>Reiniciar la partida</button>
+			<section className="turn">
+				<Square isSelected={turn === TURNS.X}><SvgX /></Square>
+				<Square isSelected={turn === TURNS.O}><SvgO /></Square>
+			</section>
 			<section className="game">
 				{
 					board.map((square, index) => {
@@ -59,16 +64,15 @@ function App() {
 								index={index}
 								updateBoard={updateBoard}
 							>
-								{square}
+								{square === TURNS.X && <SvgX />}
+								{square === TURNS.O && <SvgO />}
 							</Square>
 						)
 					})
 				}
 			</section>
-			<section className="turn">
-				<Square isSelected={turn === TURNS.X}>{TURNS.X}</Square>
-				<Square isSelected={turn === TURNS.O}>{TURNS.O}</Square>
-			</section>
+			
+			<button onClick={resetGame}>Reiniciar la partida</button>
 
 			<WinnerModal resetGame={resetGame} winner={winner} />
 		</main>
