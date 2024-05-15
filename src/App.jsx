@@ -36,6 +36,8 @@ function App() {
 	const resetContador = () => {
 		resetGame();
 		setContador({ X: 0, O: 0 });
+
+		window.localStorage.removeItem("contador");
 	};
 
 	const updateBoard = (index) => {
@@ -57,6 +59,7 @@ function App() {
 				contador.O++;
 				setContador(contador);
 			}
+			window.localStorage.setItem("contador", contador);
 		} else if (checkEndGame(newBoard)) {
 			setWinner(false);
 		} else {
