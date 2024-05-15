@@ -20,17 +20,21 @@ function App() {
 	});
 	const [contador, setContador] = useState(() => {
 		const contadorFromStorage = window.localStorage.getItem("contador");
-		return contadorFromStorage ? contadorFromStorage : { X: 0, O: 0 };
+		console.log(JSON.parse(contadorFromStorage).X);
+		return contadorFromStorage
+			? JSON.parse(contadorFromStorage)
+			: { X: 0, O: 0 };
 	});
 	const [winner, setWinner] = useState(null);
 
 	const resetGame = () => {
 		setBoard(Array(9).fill(null));
-		setTurn(turn === TURNS.X ? TURNS.O : TURNS.X);
 		setWinner(null);
+		const newTurn = turn === TURNS.X ? TURNS.O : TURNS.X;
+		setTurn(newTurn);
 
+		window.localStorage.setItem("turn", newTurn);
 		window.localStorage.removeItem("board");
-		window.localStorage.removeItem("turn");
 	};
 
 	const resetContador = () => {
@@ -51,22 +55,24 @@ function App() {
 		if (newWinner) {
 			setWinner(newWinner);
 			confetti();
+			const newContador = { ...contador };
 			if (newWinner == TURNS.X) {
-				contador.X++;
-				setContador(contador);
+				newContador.X = newContador.X + 1;
+				setContador(newContador);
 			}
 			if (newWinner == TURNS.O) {
-				contador.O++;
-				setContador(contador);
+				newContador.O = newContador.O + 1;
+				setContador(newContador);
 			}
-			window.localStorage.setItem("contador", contador);
+			console.log(newContador);
+			window.localStorage.setItem("contador", JSON.stringify(newContador));
 		} else if (checkEndGame(newBoard)) {
 			setWinner(false);
 		} else {
 			const newTurn = turn === TURNS.X ? TURNS.O : TURNS.X;
 			setTurn(newTurn);
-			window.localStorage.setItem("board", JSON.stringify(newBoard));
 			window.localStorage.setItem("turn", newTurn);
+			window.localStorage.setItem("board", JSON.stringify(newBoard));
 		}
 	};
 
