@@ -20,7 +20,6 @@ function App() {
 	});
 	const [contador, setContador] = useState(() => {
 		const contadorFromStorage = window.localStorage.getItem("contador");
-		console.log(JSON.parse(contadorFromStorage).X);
 		return contadorFromStorage
 			? JSON.parse(contadorFromStorage)
 			: { X: 0, O: 0 };
@@ -64,7 +63,6 @@ function App() {
 				newContador.O = newContador.O + 1;
 				setContador(newContador);
 			}
-			console.log(newContador);
 			window.localStorage.setItem("contador", JSON.stringify(newContador));
 		} else if (checkEndGame(newBoard)) {
 			setWinner(false);
